@@ -27,6 +27,7 @@ from flask_script import Manager
 
 from thoth.common import SafeJSONEncoder
 from thoth.common import init_logging
+from thoth.common import logger_setup
 from thoth.storages import SolverResultsStore
 import thoth_user_api
 
@@ -46,12 +47,14 @@ application.secret_key = Configuration.APP_SECRET_KEY
 
 
 @app.route('/')
+@logger_setup('werkzeug', logging.INFO)
 def base_url():
     """Redirect to UI by default."""
     return redirect('api/v1/ui')
 
 
 @app.route('/api/v1')
+@logger_setup('werkzeug', logging.INFO)
 def api_v1():
     """Provide a listing of all available endpoints."""
     paths = []
@@ -64,6 +67,7 @@ def api_v1():
     return jsonify({'paths': paths})
 
 
+@logger_setup('werkzeug', logging.WARNING)
 def _healthiness():
     """Check service healthiness."""
     # Check response from Kubernetes API.
@@ -82,6 +86,7 @@ def _healthiness():
     ), 200, {'ContentType': 'application/json'}
 
 
+@logger_setup('werkzeug', logging.WARNING)
 @app.route('/readiness')
 def api_readiness():
     """Report readiness for OpenShift readiness probe."""
@@ -89,6 +94,7 @@ def api_readiness():
 
 
 @app.route('/liveness')
+@logger_setup('werkzeug', logging.WARNING)
 def api_liveness():
     """Report liveness for OpenShift readiness probe."""
     return _healthiness()
