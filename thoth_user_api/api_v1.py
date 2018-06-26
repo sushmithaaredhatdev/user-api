@@ -105,6 +105,7 @@ def advise(packages: dict, debug: bool=False, packages_only: bool=False):
             'parameters': params
         }, 400
 
+
 @logger_setup('werkzeug', logging.INFO)
 def sync(secret: str, sync_observations: bool=False,
          force_analysis_results_sync: bool=False, force_solver_results_sync: bool=False):
@@ -237,7 +238,6 @@ def get_runtime_environment(runtime_environment_name: str, analysis_id: str=None
     }, 200
 
 
-
 @logger_setup('werkzeug', logging.INFO)
 def list_runtime_environment_analyses(runtime_environment_name: str, page: int=0):
     """List analyses for the given runtime environment."""
@@ -266,6 +266,7 @@ def list_runtime_environment_analyses(runtime_environment_name: str, page: int=0
 def list_buildlogs(page: int=0):
     """List available build logs."""
     return _do_listing(BuildLogsStore, page)
+
 
 @logger_setup('werkzeug', logging.INFO)
 def list_analyzer_results(page: int=0):
